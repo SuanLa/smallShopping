@@ -6,5 +6,6 @@
             <typeAlias type="com.bean.Cart" alias="Cart"/>
             <typeAlias type="com.bean.Item" alias="Item"/>
             <typeAlias type="com.bean.User" alias="User"/>
+            <typeAlias type="com.bean.Other" alias="Other"/>
         </typeAliases>
 </configuration>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.OtherDAO">
+    <resultMap id="otherMap" type="Other">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="times" property="times"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <insert id="creat" parameterType="Other" useGeneratedKeys="true" keyProperty="id">
+        insert into other(id,user_id,times,message)
+        values (#{id},#{userId},#{times},#{message})
+    </insert>
+
+    <select id="retrieveByUser" resultMap="otherMap">
+        select *
+        from other
+        where user_id=#{userId}
+    </select>
+
+    <select id="retrieveById" resultMap="otherMap">
+        select *
+        from other
+        where id=#{id}
+    </select>
+
+    <select id="retrieveAllMessage" resultMap="otherMap">
+        select *
+        from other
+    </select>
+
+    <update id="updateTimesById" parameterType="Other">
+        update other
+        set times=#{times}
+        where id=#{id}
+    </update>
+</mapper>

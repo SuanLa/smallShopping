@@ -46,8 +46,8 @@
                     <th class="text-center">留言框</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr id="text">
+            <tbody id="text">
+                <tr>
                     <th class="text-center">Start aligned text on all viewport sizes.
 
                         Center aligned text on all viewport sizes.
@@ -72,13 +72,17 @@
     var times;
     $(function (){
         $.ajax({
-            url:'http://localhost:8080/test/',
+            url:'http://localhost:8080/test/other/messages',
             type:'post',
             contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
             data_type:'json',
             success:function (data){
                 $.each(data,function (index,obj){
-
+                    let html = '';
+                    html += '<tr>';
+                    html += '<th class="text-center">' + obj['message'] + '</th>';
+                    html += '</tr>';
+                    $('#text').append(html);
                 })
             },
             error:function (){
