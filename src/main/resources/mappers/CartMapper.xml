@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.CartDAO">
+        <resultMap id="searchUser" type="Cart">
+            <id column="cart_id" property="id"/>
+            <result column="cart_user" property="user"/>
+            <result column="cart_item" property="item"/>
+            <collection property="items" select="com.dao.ItemDAO.queryById" column="cart_item"/>
+        </resultMap>
+
+        <select id="queryByUserId" resultMap="searchUser">
+            select cart_id,cart_user,cart_item
+            from Cart
+            where cart_user=#{userId}
+        </select>
+
+        <resultMap id="CartMap" type="Cart">
+            <id column="cart_id" property="id"/>
+            <result column="cart_user" property="user"/>
+            <result column="cart_item" property="item"/>
+            <collection property="items" ofType="Item">
+                <result column="item_name" property="name"/>
+                <result column="item_price" property="price"/>
+                <result column="item_num" property="number"/>
+            </collection>
+        </resultMap>
+
+        <select id="queryItem" resultMap="CartMap">
+            select cart_id,cart_user,cart_item,i.item_name,i.item_price,i.item_num
+            from Cart c inner join Item i
+            on c.cart_item = i.item_id
+            where c.cart_id=#{id}
+        </select>
+
+        <insert id="addItemById" useGeneratedKeys="true" keyProperty="id">
+            insert into Cart(cart_user,cart_item)
+            values (#{user},#{item})
+        </insert>
+
+        <delete id="deleteItemById" timeout="50">
+            delete from Cart
+            where cart_item=#{id} and cart_user=#{userId}
+        </delete>
+</mapper>

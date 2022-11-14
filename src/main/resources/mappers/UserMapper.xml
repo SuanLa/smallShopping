@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserDAO">
+    <resultMap id="userMap" type="User">
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="username"/>
+        <result column="user_password" property="password"/>
+    </resultMap>
+
+    <select id="queryByName" resultMap="userMap">
+        select user_id,user_name,user_password
+        from User
+        where user_name=#{name}
+    </select>
+
+    <insert id="creatUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into User(user_name,user_password)
+        values(#{username},#{password})
+    </insert>
+
+    <resultMap id="userQueryCart" type="User">
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="username"/>
+        <result column="user_password" property="password"/>
+        <collection property="cart" select="com.dao.CartDAO.queryByUserId" column="user_id"/>
+    </resultMap>
+    
+    <select id="queryCart" resultMap="userQueryCart">
+        select user_id,user_name,user_password
+        from User
+        where user_id=#{id}
+    </select>
+</mapper>
