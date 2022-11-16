@@ -37,4 +37,10 @@
         set times=#{times}
         where id=#{id}
     </update>
+
+    <update id="updateMessageByUserId" parameterType="Other">
+        update other
+        set message=#{message}
+        where user_id=#{userId}
+    </update>
 </mapper>

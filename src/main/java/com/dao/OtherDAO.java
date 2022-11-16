@@ -49,4 +49,13 @@ public interface OtherDAO {
      * @return the int
      */
     public int updateTimesById(@Param("id") int id,@Param("times") int times);
+
+    /**
+     * Update message by id int.
+     *
+     * @param userId  the user id
+     * @param message the message
+     * @return the int
+     */
+    public int updateMessageByUserId(@Param("userId") int userId,@Param("message") String message);
 }

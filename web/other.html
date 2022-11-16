@@ -12,31 +12,74 @@
     <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/test/welcome.html">欢迎</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/test/cart.html">购物车</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/test/item.html">商城</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        个人中心
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">修改密码</a></li>
+                        <li><a class="dropdown-item" href="#">注销账户</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/test/other.html">其他功能</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">实验四</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="正在开发中" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+</nav>
     <div class="container gy-5">
         <!--计数器-->
-        <div id="counter">
-            <h1 class="display-6">这是第次浏览本网站</h1>
-            <br>
+        <div>
+            <h1 id="counter" class="display-6"></h1>
+            <hr>
         </div>
 
         <!--成语接龙-->
         <div>
+            <h1 class="h1">成语接龙游戏</h1>
+        </div>
+        <div>
             <h4 id="idiom"></h4>
             <div class="input-group mb-3">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
-                <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <button class="btn btn-outline-secondary" type="button" id="buttonCommit">接龙</button>
+                <input type="text" id="getText" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
             </div>
-            <br>
+            <hr>
         </div>
 
         <!--留言板-->
-        <form>
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                <label for="floatingTextarea2">写评论</label>
-                <input type="submit" class="form-control" aria-label="Example text with button addon">
+        <div>
+            <h1 class="h1">留言板</h1>
+        </div>
+        <div class="row row-cols-lg-auto g-3 align-items-center">
+            <div class="col-12">
+                <textarea id="texts" class="form-control" name="message" placeholder="写下你的评论" style="height: 100px"></textarea>
             </div>
-        </form>
+            <div class="col-12">
+                <input id="inputMessage" type="submit"  class="form-control bg-primary" aria-label="Example text with button addon">
+            </div>
+        </div>
         <br>
     </div>
     <div>
@@ -47,21 +90,6 @@
                 </tr>
             </thead>
             <tbody id="text">
-                <tr>
-                    <th class="text-center">Start aligned text on all viewport sizes.
-
-                        Center aligned text on all viewport sizes.
-
-                        End aligned text on all viewport sizes.
-
-                        Start aligned text on viewports sized SM (small) or wider.
-
-                        Start aligned text on viewports sized MD (medium) or wider.
-
-                        Start aligned text on viewports sized LG (large) or wider.
-
-                        Start aligned text on viewports sized XL (extra-large) or wider.</th>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -69,8 +97,15 @@
 <script type="text/javascript" src="jquery-3.6.0.js"></script>
 <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
-    var times;
+    var chengyu;
+    let userId = $.cookie('userId');
+    let times = $.cookie('times');
+    let id;
     $(function (){
+        setInterval(test,60*3);
+        function test(){
+            $('#idiom').html(chengyu)
+        }
         $.ajax({
             url:'http://localhost:8080/test/other/messages',
             type:'post',
@@ -82,11 +117,63 @@
                     html += '<tr>';
                     html += '<th class="text-center">' + obj['message'] + '</th>';
                     html += '</tr>';
+                    html +='<br>'
                     $('#text').append(html);
                 })
+                let html = '';
+                html += '这是第' + times + '次浏览网站';
+                $('#counter').append(html);
             },
             error:function (){
                 alert("请求出错")
+            }
+        })
+    })
+
+    $('#inputMessage').click(function (){
+        $.ajax({
+            url: 'http://localhost:8080/test/other/input',
+            data:{
+                userId:userId,
+                message:$('#texts').val()
+            },
+            type:'post',
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            data_type:'json',
+            success:function (data){
+                if (data){
+                    alert("查询成功")
+                }else {
+                    alert("查询失败")
+                }
+            },
+            error:function (){
+                alert("提交失败")
+            }
+        })
+    })
+
+    $('#buttonCommit').click(function (){
+        $.ajax({
+            url:'https://apis.tianapi.com/chengyujielong/index',
+            data: {
+                key:'efbaecbcd0ed58cf4486447e37f6fea6',
+                word:$('#getText').val(),
+                userid:userId
+            },
+            type:'post',
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            data_type:'json',
+            success:function (data){
+                $.each(data,function (index,obj){
+                    chengyu = '成语：'+obj['chengyu'] ;
+                })
+            },
+            error:function (){
+                alert('出错了')
+            },
+            complete:function (){
+
             }
         })
     })

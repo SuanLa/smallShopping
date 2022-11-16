@@ -4,9 +4,6 @@ import com.bean.Other;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 /**
  * @author Tomcat
  * @Date 2022/11/14 20:36
@@ -31,17 +28,25 @@ public interface OtherService {
     /**
      * Update message by id boolean.
      *
-     * @param id      the id
+     * @param userId  the user id
      * @param message the message
      * @return the boolean
      */
-    public boolean updateMessageById(int id,String message);
+    public boolean updateMessageByUserId(int userId,String message);
 
     /**
      * Update times by id boolean.
      *
-     * @param id the id
-     * @return the boolean
+     * @param id    the id
+     * @param times the times
      */
-    public boolean increaseTimesById(int id);
+    public void increaseTimesById(int id, int times);
+
+    /**
+     * Query by user id other.
+     *
+     * @param userId the user id
+     * @return the other
+     */
+    public Other queryByUserId(int userId);
 }

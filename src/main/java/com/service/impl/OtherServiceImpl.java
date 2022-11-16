@@ -38,16 +38,35 @@ public class OtherServiceImpl implements OtherService {
 
     @Override
     public boolean creatCount(int userId) {
-        return false;
+        Other other = new Other(0, userId, 1, null);
+        int creat = otherDAO.creat(other);
+        if (creat==0){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override
-    public boolean updateMessageById(int id, String message) {
-        return false;
+    public boolean updateMessageByUserId(int userId, String message) {
+        int i = otherDAO.updateMessageByUserId(userId, message);
+        if (i==0){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override
-    public boolean increaseTimesById(int id) {
-        return false;
+    public void increaseTimesById(int id, int times) {
+        int i = otherDAO.updateTimesById(id, times);
+        if (i==0){
+        }else {
+        }
+    }
+
+    @Override
+    public Other queryByUserId(int userId) {
+        return otherDAO.retrieveByUser(userId);
     }
 }

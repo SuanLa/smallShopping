@@ -23,4 +23,10 @@ public class OtherController {
     public JsonNode getMessage(){
         return otherService.queryAllMessage();
     }
+
+    @RequestMapping("/input")
+    @ResponseBody
+    public boolean inputMessage(int userId,String message){
+        return otherService.updateMessageByUserId(userId,message);
+    }
 }
