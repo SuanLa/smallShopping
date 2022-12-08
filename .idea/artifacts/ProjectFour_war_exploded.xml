@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="ProjectFour:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/ProjectFour_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="ProjectFour/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="ProjectFour" />
@@ -38,6 +37,7 @@
           <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:5.2.0" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="ProjectFour/web/Web" />
     </root>
   </artifact>
 </component>

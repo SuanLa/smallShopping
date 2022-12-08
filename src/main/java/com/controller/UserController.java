@@ -41,6 +41,7 @@ public class UserController {
     @RequestMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
+                        @RequestParam("remember") String remember,
                         HttpServletResponse hsr) throws UnsupportedEncodingException {
         /*通过service拿到user对象*/
         User login = userService.login(password, username);
@@ -68,14 +69,18 @@ public class UserController {
         Cookie pw = new Cookie("password", URLEncoder.encode(login.getPassword(), StandardCharsets.UTF_8));
         un.setPath("/");
         pw.setPath("/");
-        un.setMaxAge(60*60*24);
-        pw.setMaxAge(60*60*24);
+        un.setMaxAge(60);
+        pw.setMaxAge(60);
 
         /*判断密码是否正确，正确重定向到welcome页面，失败重定向到登陆页面*/
         if (login.getPassword().equals(password)){
+            System.out.println(remember);
             /*添加进response*/
-            hsr.addCookie(un);
-            hsr.addCookie(pw);
+            if ("0,1".equals(remember)){
+                hsr.addCookie(un);
+                hsr.addCookie(pw);
+            }
+
             hsr.addCookie(times);
 
             /*更新登录次数*/
@@ -117,10 +122,9 @@ public class UserController {
      * @param password the password
      * @param hsr      the hsr
      * @return the string
-     * @throws UnsupportedEncodingException the unsupported encoding exception
      */
     @RequestMapping("/auto")
-    public String autoLogin(@RequestParam("username") String username,@RequestParam("password") String password,HttpServletResponse hsr) throws UnsupportedEncodingException {
+    public String autoLogin(@RequestParam("username") String username,@RequestParam("password") String password,HttpServletResponse hsr){
         User autoLogin = userService.autoLogin(username, password);
 
         /*拿到用户的其余信息*/
