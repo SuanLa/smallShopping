@@ -34,6 +34,7 @@ public class UserController {
      *
      * @param username the username
      * @param password the password
+     * @param remember the remember
      * @param hsr      the hsr
      * @return the string
      * @throws UnsupportedEncodingException the unsupported encoding exception
@@ -85,9 +86,9 @@ public class UserController {
 
             /*更新登录次数*/
             otherService.increaseTimesById(other.getId(),other.getTimes()+1);
-            return "redirect:/welcome.html";
+            return "/welcome.html";
         }else {
-            return "redirect:/index.html";
+            return "redirect:/error.html";
         }
     }
 

@@ -8,6 +8,7 @@ import com.bean.User;
  * @author Tomcat
  * @Date 2022 /10/28 17:45
  */
+
 public interface UserDAO {
     /**
      * Query by id user.
